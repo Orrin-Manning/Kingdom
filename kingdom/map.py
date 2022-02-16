@@ -29,7 +29,7 @@ class Map:
 
     def render(self):
         font = 'firacodevf'
-        font_size = 20
+        font_size = 24
         font_path = pygame.font.match_font(font)
         character_printer = pygame.font.Font(font_path, font_size)
         character_size = character_printer.size(' ')
