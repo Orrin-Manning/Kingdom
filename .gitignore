@@ -1,3 +1,4 @@
 env
 __pychache__/
 *py[cod]
+.DS_Store
