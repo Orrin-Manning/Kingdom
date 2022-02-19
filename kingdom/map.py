@@ -1,6 +1,7 @@
 import pygame
 from pygame import Surface
 from pygame.locals import *
+from pathlib import Path
 from cell import Cell
 from cursor import Cursor
 import gruvbox
@@ -28,10 +29,10 @@ class Map:
         return self._height
 
     def render(self):
-        font = 'firacodevf'
-        font_size = 24
-        font_path = pygame.font.match_font(font)
-        character_printer = pygame.font.Font(font_path, font_size)
+        # font = 'firacodevf'
+        # font_size = 24
+        font_path = Path('assets/computer_modern_font/cmuntx.ttf')
+        character_printer = pygame.font.Font(font_path, 24)
         character_size = character_printer.size(' ')
 
         surface = Surface((self._width * character_size[0], self._height * character_size[1]))
