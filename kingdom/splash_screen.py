@@ -20,14 +20,13 @@ def splash_screen(display):
     dev_font = Font(dev_font_path, 36)
     print(dev_font)
 
-    dev_surface = dev_font.render(dev_name, True, gruvbox.fg['fg'])
+    dev_surface = dev_font.render(dev_name, True, gruvbox.fg['yellow'])
     
     center_pos = get_center(dev_surface.get_size(), display.get_size())
 
-    # Draw Screen
-    display.blit(dev_surface, center_pos)
-
     while True:
+        display.fill(gruvbox.bg['bg'])
+        display.blit(dev_surface, center_pos)
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == QUIT:
