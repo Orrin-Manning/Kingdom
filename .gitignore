@@ -2,3 +2,5 @@ env
 __pychache__/
 *py[cod]
 .DS_Store
+
+assets/durango-western-eroded/*.png
