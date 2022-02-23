@@ -13,6 +13,8 @@ def get_center(target_size, dest_size):
     position = (x_pos, y_pos)
     return position
 
+# def rise_and_freeze():
+
 def splash_screen(display):
     dev_name = 'Snake Oil Software'
     dev_font_path = Path('assets/durango-western-eroded/Durango Western Eroded Demo.otf')
@@ -21,11 +23,11 @@ def splash_screen(display):
 
     dev_surface = dev_font.render(dev_name, False, gruvbox.fg['yellow'])
     
-    center_pos = get_center(dev_surface.get_size(), display.get_size())
-
     initial_time = pygame.time.get_ticks()
     # Loop terminates 5 seconds after initial_time is set
     while pygame.time.get_ticks() - initial_time < 5000:
+        center_pos = get_center(dev_surface.get_size(), display.get_size())
+
         display.fill(gruvbox.bg['bg0'])
         display.blit(dev_surface, center_pos)
         pygame.display.update()
