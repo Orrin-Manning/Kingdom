@@ -20,7 +20,7 @@ def splash_screen(display):
     dev_font = Font(dev_font_path, 36)
     print(dev_font)
 
-    dev_surface = dev_font.render(dev_name, True, gruvbox.fg['yellow'])
+    dev_surface = dev_font.render(dev_name, False, gruvbox.fg['yellow'])
     
     center_pos = get_center(dev_surface.get_size(), display.get_size())
 
