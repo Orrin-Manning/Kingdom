@@ -25,7 +25,7 @@ def splash_screen(display):
     center_pos = get_center(dev_surface.get_size(), display.get_size())
 
     while True:
-        display.fill(gruvbox.bg['bg'])
+        display.fill(gruvbox.bg['bg0'])
         display.blit(dev_surface, center_pos)
         pygame.display.update()
         for event in pygame.event.get():
