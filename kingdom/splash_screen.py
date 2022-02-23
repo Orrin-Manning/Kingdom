@@ -23,7 +23,9 @@ def splash_screen(display):
     
     center_pos = get_center(dev_surface.get_size(), display.get_size())
 
-    while True:
+    initial_time = pygame.time.get_ticks()
+    # Loop terminates 5 seconds after initial_time is set
+    while pygame.time.get_ticks() - initial_time < 5000:
         display.fill(gruvbox.bg['bg0'])
         display.blit(dev_surface, center_pos)
         pygame.display.update()
