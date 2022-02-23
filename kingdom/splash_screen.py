@@ -15,7 +15,7 @@ def get_center(target_size, dest_size):
 
 def splash_screen(display):
     dev_name = 'Snake Oil Software'
-    dev_font_path = Path('assets/computer_modern_font/cmuntx.ttf')
+    dev_font_path = Path('assets/durango-western-eroded/Durango Western Eroded Demo.otf')
 
     dev_font = Font(dev_font_path, 64)
 
