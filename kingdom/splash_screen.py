@@ -17,8 +17,7 @@ def splash_screen(display):
     dev_name = 'Snake Oil Software'
     dev_font_path = Path('assets/computer_modern_font/cmuntx.ttf')
 
-    dev_font = Font(dev_font_path, 36)
-    print(dev_font)
+    dev_font = Font(dev_font_path, 64)
 
     dev_surface = dev_font.render(dev_name, False, gruvbox.fg['yellow'])
     
