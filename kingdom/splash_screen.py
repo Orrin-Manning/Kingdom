@@ -33,6 +33,8 @@ def splash_screen(display):
                 pygame.quit()
                 sys.exit()
 
+# For testing, if script is run standalone, perform basic initialization
+# of display to preview behavior of the splash screen
 if __name__ == '__main__':
     pygame.init()
     display = pygame.display.set_mode((800, 600), RESIZABLE)
