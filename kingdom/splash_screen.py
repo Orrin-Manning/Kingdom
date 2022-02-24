@@ -5,16 +5,24 @@ from pygame.locals import *
 from pygame.font import Font
 import gruvbox
 
-# Takes a target surface and a destination surface, and returns a position
-# that allows the target to be center within the destination
+# Takes a target surface and a destination surface, returns a position
+# that allows the target to be centered within the destination
 def get_center(target_size, dest_size):
     x_pos= dest_size[0] / 2 - target_size[0] / 2
     y_pos= dest_size[1] / 2 - target_size[1] / 2
     position = (x_pos, y_pos)
     return position
 
-# def rise_and_freeze():
+def rise_and_freeze(t, dest, display_size):
+    rise_t = 2000
+    distance = display_size[1] - dest[1]
+    if t < rise_t:
+        position = (dest[0], display_size[1] - (t/rise_t)*distance)
+    else:
+        position = dest
+    return position
 
+# Main logic for splash screen
 def splash_screen(display):
     dev_name = 'Snake Oil Software'
     dev_font_path = Path('assets/durango-western-eroded/Durango Western Eroded Demo.otf')
@@ -22,15 +30,20 @@ def splash_screen(display):
     dev_font = Font(dev_font_path, 64)
 
     dev_surface = dev_font.render(dev_name, False, gruvbox.fg['yellow'])
+    center_pos = get_center(dev_surface.get_size(), display.get_size())
     
-    initial_time = pygame.time.get_ticks()
     # Loop terminates 5 seconds after initial_time is set
-    while pygame.time.get_ticks() - initial_time < 5000:
-        center_pos = get_center(dev_surface.get_size(), display.get_size())
+    initial_time = pygame.time.get_ticks()
+    while (t := pygame.time.get_ticks() - initial_time) < 5000:
+        # Calculate position of logo based on time
+        dev_pos = rise_and_freeze(t, center_pos, display.get_size())
 
+        # Wipe screen and print logo at new position in the frame
         display.fill(gruvbox.bg['bg0'])
-        display.blit(dev_surface, center_pos)
+        display.blit(dev_surface, dev_pos)
         pygame.display.update()
+
+        # Handle manual close of the window
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
