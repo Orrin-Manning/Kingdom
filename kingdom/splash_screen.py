@@ -24,6 +24,9 @@ def rise_and_freeze(t, dest, display_size):
 
 # Main logic for splash screen
 def splash_screen(display):
+    FPS = 60
+    frame_per_sec = pygame.time.Clock()
+
     dev_name = 'Snake Oil Software'
     dev_font_path = Path('assets/durango-western-eroded/Durango Western Eroded Demo.otf')
 
@@ -49,9 +52,11 @@ def splash_screen(display):
                 pygame.quit()
                 sys.exit()
 
+        frame_per_sec.tick(FPS)
+
 # For testing, if script is run standalone, perform basic initialization
 # of display to preview behavior of the splash screen
 if __name__ == '__main__':
     pygame.init()
-    display = pygame.display.set_mode((800, 600))
+    display = pygame.display.set_mode((800, 600), vsync=True)
     splash_screen(display)
