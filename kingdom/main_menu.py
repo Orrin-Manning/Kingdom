@@ -9,6 +9,44 @@ def center_horizontal(target, dest):
     x = dest.get_width() / 2 - target.get_width() / 2
     return x
 
+class Menu:
+    def __init__(self, menu_items, font):
+        self.menu_items = menu_items
+        self.font = font
+        self.cursor_pos = 0
+
+    # TODO: Should probably be a class to facilitate interaction with the menu at runtime
+    # TODO: Simplify the variable names in this function
+    @property
+    def surface(self):
+        subsurfaces = [ ]
+        height = 0
+        max_width = 0
+
+        # Populate subsurfaces array with text for each menu item, and calculate
+        # the dimensions of the master surface
+        for i, item in enumerate(self.menu_items):
+            subsurfaces.append(self.font.render(item, True, gruvbox.fg['fg']))
+            if subsurfaces[i].get_width() > max_width:
+                max_width = subsurfaces[i].get_width()
+            height += subsurfaces[i].get_height()
+
+        # Create cursor surface to be blit onto the master surface
+        cursor = self.font.render('> ', True, gruvbox.fg['red'])
+
+        # Create a master surface to hold the entire menu w/ transparent background
+        surface = pygame.Surface((max_width + cursor.get_width(), height))
+        surface.set_colorkey('#000000')
+
+        # Blit menu item surfaces onto the master surface
+        for i, subsurface in enumerate(subsurfaces):
+            # If selected, draw the cursor
+            if i == self.cursor_pos:
+                surface.blit(cursor, (0, i*subsurface.get_height()))
+            surface.blit(subsurface, (cursor.get_width(), i*subsurface.get_height()))
+
+        return surface
+
 def main_menu(display):
     TITLE = 'Kingdom'
     MENU_ITEMS = ['Continue', 'Load Game', 'New Game', 'Settings', 'Quit']
@@ -20,25 +58,13 @@ def main_menu(display):
     title_font = Font(FONT_PATH, LARGE)
     title_surface = title_font.render(TITLE, False, gruvbox.fg['fg'])
 
-    menu_item_font = Font(FONT_PATH, MEDIUM)
-    item_surfaces = [ ]
-    height = 0
-    max_width = 0
-    for i, item in enumerate(MENU_ITEMS):
-        item_surfaces.append(menu_item_font.render(item, True, gruvbox.fg['fg']))
-        if item_surfaces[i].get_width() > max_width:
-            max_width = item_surfaces[i].get_width()
-        height += item_surfaces[i].get_height()
-    menu_surface = pygame.Surface((max_width, height))
-    menu_surface.set_colorkey('#000000')
-    for i, surface in enumerate(item_surfaces):
-        menu_surface.blit(surface, (0, i*surface.get_height()))
-
+    menu_font = Font(FONT_PATH, MEDIUM)
+    menu = Menu(MENU_ITEMS, menu_font)
 
     while True:
         display.fill(gruvbox.bg['bg0_h'])
         display.blit(title_surface, (center_horizontal(title_surface, display),0))
-        display.blit(menu_surface, (center_horizontal(menu_surface, display),200))
+        display.blit(menu.surface, (center_horizontal(menu.surface, display),200))
         pygame.display.update()
 
         for event in pygame.event.get():
