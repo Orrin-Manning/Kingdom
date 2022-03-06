@@ -46,12 +46,15 @@ class Menu:
         return self._surface
     
     def cursor_up(self):
-        if self.cursor_pos - 1 < 0:
+        if self.cursor_pos - 1 >= 0:
             self.cursor_pos -= 1
+        else:
+            self.cursor_pos = len(self.menu_items) - 1
 
     def cursor_down(self):
-        if self.cursor_pos + 1 >= self.menu_items.length():
+        if self.cursor_pos + 1 < len(self.menu_items):
             self.cursor_pos += 1
+        else: self.cursor_pos = 0
 
 def main_menu(display):
     TITLE = 'Kingdom'
@@ -77,6 +80,13 @@ def main_menu(display):
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
+
+            if event.type == KEYDOWN:
+                if event.key == K_k or event.key == K_UP:
+                    menu.cursor_up()
+
+                if event.key == K_j or event.key == K_DOWN:
+                    menu.cursor_down()
 
 if __name__ == '__main__':
     pygame.init()
