@@ -65,7 +65,7 @@ def main_menu(display):
     FONT_PATH = Path('assets/computer_modern_font/cmuntb.ttf')
 
     title_font = Font(FONT_PATH, LARGE)
-    title_surface = title_font.render(TITLE, False, gruvbox.fg['fg'])
+    title_surface = title_font.render(TITLE, True, gruvbox.fg['fg'])
 
     menu_font = Font(FONT_PATH, MEDIUM)
     menu = Menu(MENU_ITEMS, menu_font)
