@@ -13,39 +13,45 @@ class Menu:
     def __init__(self, menu_items, font):
         self.menu_items = menu_items
         self.font = font
+        self.subsurfaces = [ ]
+        self.height = 0
+        self.width = 0
+        self.cursor = self.font.render('> ', True, gruvbox.fg['red'])
         self.cursor_pos = 0
 
-    # TODO: Should probably be a class to facilitate interaction with the menu at runtime
-    # TODO: Simplify the variable names in this function
-    @property
-    def surface(self):
-        subsurfaces = [ ]
-        height = 0
-        max_width = 0
-
-        # Populate subsurfaces array with text for each menu item, and calculate
+        # Populate subsurfaces array with surfaces for each menu item, and calculate
         # the dimensions of the master surface
         for i, item in enumerate(self.menu_items):
-            subsurfaces.append(self.font.render(item, True, gruvbox.fg['fg']))
-            if subsurfaces[i].get_width() > max_width:
-                max_width = subsurfaces[i].get_width()
-            height += subsurfaces[i].get_height()
-
-        # Create cursor surface to be blit onto the master surface
-        cursor = self.font.render('> ', True, gruvbox.fg['red'])
+            self.subsurfaces.append(self.font.render(item, True, gruvbox.fg['fg']))
+            if self.subsurfaces[i].get_width() + self.cursor.get_width() > self.width:
+                self.width = self.subsurfaces[i].get_width() + self.cursor.get_width()
+            self.height += self.subsurfaces[i].get_height()
 
         # Create a master surface to hold the entire menu w/ transparent background
-        surface = pygame.Surface((max_width + cursor.get_width(), height))
-        surface.set_colorkey('#000000')
+        self._surface = pygame.Surface((self.width, self.height))
+        self._surface.set_colorkey('#000000')
+
+    @property
+    def surface(self):
+        # Wipe the surface clean for new frame
+        self._surface.fill('#000000')
 
         # Blit menu item surfaces onto the master surface
-        for i, subsurface in enumerate(subsurfaces):
+        for i, subsurface in enumerate(self.subsurfaces):
             # If selected, draw the cursor
             if i == self.cursor_pos:
-                surface.blit(cursor, (0, i*subsurface.get_height()))
-            surface.blit(subsurface, (cursor.get_width(), i*subsurface.get_height()))
+                self._surface.blit(self.cursor, (0, i*subsurface.get_height()))
+            self._surface.blit(subsurface, (self.cursor.get_width(), i*subsurface.get_height()))
 
-        return surface
+        return self._surface
+    
+    def cursor_up(self):
+        if self.cursor_pos - 1 < 0:
+            self.cursor_pos -= 1
+
+    def cursor_down(self):
+        if self.cursor_pos + 1 >= self.menu_items.length():
+            self.cursor_pos += 1
 
 def main_menu(display):
     TITLE = 'Kingdom'
