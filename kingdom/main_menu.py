@@ -17,7 +17,7 @@ class Menu:
         self.height = 0
         self.width = 0
         self.cursor = self.font.render('> ', True, gruvbox.fg['red'])
-        self.cursor_pos = 0
+        self.cursor_index = 0
 
         # Populate subsurfaces array with surfaces for each menu item, and calculate
         # the dimensions of the master surface
@@ -37,24 +37,26 @@ class Menu:
         self._surface.fill('#000000')
 
         # Blit menu item surfaces onto the master surface
+        v_offset = 0
         for i, subsurface in enumerate(self.subsurfaces):
             # If selected, draw the cursor
-            if i == self.cursor_pos:
-                self._surface.blit(self.cursor, (0, i*subsurface.get_height()))
-            self._surface.blit(subsurface, (self.cursor.get_width(), i*subsurface.get_height()))
+            if i == self.cursor_index:
+                self._surface.blit(self.cursor, (0, v_offset))
+            self._surface.blit(subsurface, (self.cursor.get_width(), v_offset))
+            v_offset += subsurface.get_height()
 
         return self._surface
     
     def cursor_up(self):
-        if self.cursor_pos - 1 >= 0:
-            self.cursor_pos -= 1
+        if self.cursor_index - 1 >= 0:
+            self.cursor_index -= 1
         else:
-            self.cursor_pos = len(self.menu_items) - 1
+            self.cursor_index = len(self.menu_items) - 1
 
     def cursor_down(self):
-        if self.cursor_pos + 1 < len(self.menu_items):
-            self.cursor_pos += 1
-        else: self.cursor_pos = 0
+        if self.cursor_index + 1 < len(self.menu_items):
+            self.cursor_index += 1
+        else: self.cursor_index = 0
 
 def main_menu(display):
     TITLE = 'Kingdom'
