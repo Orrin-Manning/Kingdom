@@ -14,8 +14,8 @@ class Menu:
         self.menu_items = menu_items
         self.font = font
         self.subsurfaces = [ ]
-        self.height = 0
-        self.width = 0
+        self.size = (0, 0)
+
         self.cursor = self.font.render('> ', True, gruvbox.fg['red'])
         self.cursor_index = 0
 
@@ -30,6 +30,22 @@ class Menu:
         # Create a master surface to hold the entire menu w/ transparent background
         self._surface = pygame.Surface((self.width, self.height))
         self._surface.set_colorkey('#000000')
+
+    @property
+    def width(self):
+        return self.size[0]
+
+    @width.setter
+    def width(self, new_width):
+        self.size = (new_width, self.height)
+
+    @property
+    def height(self):
+        return self.size[1]
+
+    @height.setter
+    def height(self, new_height):
+        self.size = (self.width, new_height)
 
     @property
     def surface(self):
