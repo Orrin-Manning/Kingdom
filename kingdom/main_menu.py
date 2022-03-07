@@ -74,6 +74,31 @@ class Menu:
             self.cursor_index += 1
         else: self.cursor_index = 0
 
+    def cursor_select(self):
+        actions = {
+            'Continue': continue_game,
+            'Load Game': load_game,
+            'New Game': new_game,
+            'Settings': settings,
+            'Quit': quit_game
+        }
+        actions.get(self.menu_items[self.cursor_index])()
+
+def continue_game():
+    print('Continue was selected')
+
+def load_game():
+    print('Load Game was selected')
+
+def new_game():
+    print('New Game was selected')
+
+def settings():
+    print('Settings was selected')
+
+def quit_game():
+    print('Quit was selected')
+
 def main_menu(display):
     TITLE = 'Kingdom'
     MENU_ITEMS = ['Continue', 'Load Game', 'New Game', 'Settings', 'Quit']
@@ -105,6 +130,9 @@ def main_menu(display):
 
                 if event.key == K_j or event.key == K_DOWN:
                     menu.cursor_down()
+
+                if event.key == K_SPACE or event.key == K_RETURN:
+                    menu.cursor_select()
 
 if __name__ == '__main__':
     pygame.init()
