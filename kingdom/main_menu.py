@@ -97,7 +97,8 @@ def settings():
     print('Settings was selected')
 
 def quit_game():
-    print('Quit was selected')
+    pygame.quit()
+    sys.exit()
 
 def main_menu(display):
     TITLE = 'Kingdom'
@@ -121,8 +122,7 @@ def main_menu(display):
 
         for event in pygame.event.get():
             if event.type == QUIT:
-                pygame.quit()
-                sys.exit()
+                quit_game()
 
             if event.type == KEYDOWN:
                 if event.key == K_k or event.key == K_UP:
