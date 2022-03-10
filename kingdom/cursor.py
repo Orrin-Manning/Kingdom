@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 import gruvbox
 
-class Cursor():
+class Cursor:
     symbol = 'X'
     fg_color = gruvbox.fg['yellow']
     bg_color = gruvbox.bg['bg']
